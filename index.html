@@ -1,95 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
-
+<html>
 <head>
-  <title>Carada</title>
-
-<!--[if gte mso 9]><xml>
-<mso:CustomDocumentProperties>
-<mso:xd_Signature msdt:dt="string"></mso:xd_Signature>
-<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor msdt:dt="string">CHAYAPOL MOEMENG</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor>
-<mso:Order msdt:dt="string">300.000000000000</mso:Order>
-<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author msdt:dt="string">CHAYAPOL MOEMENG</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author>
-<mso:xd_ProgID msdt:dt="string"></mso:xd_ProgID>
-<mso:_ExtendedDescription msdt:dt="string"></mso:_ExtendedDescription>
-<mso:ComplianceAssetId msdt:dt="string"></mso:ComplianceAssetId>
-<mso:TemplateUrl msdt:dt="string"></mso:TemplateUrl>
-<mso:ContentTypeId msdt:dt="string">0x0101009FF7D1E89D0B8D439BF6074909CECEB2</mso:ContentTypeId>
-<mso:TriggerFlowInfo msdt:dt="string"></mso:TriggerFlowInfo>
-<mso:_SourceUrl msdt:dt="string"></mso:_SourceUrl>
-<mso:_SharedFileIndex msdt:dt="string"></mso:_SharedFileIndex>
-</mso:CustomDocumentProperties>
-</xml><![endif]-->
+    <title>Car Accessories</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-  <h1>Top Used Cars</h1>
-  <table>
-    <thead>
-
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <table border="0">
-            <tr>
-              <td colspan="3">
-                <img src="car.webp">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">Toyota Hilux Revo</td>
-              <td rowspan="2">19 Cars</td>
-            </tr>
-            <tr>
-              <td>Start from</td>
-              <td>379,4000 Baht</td>
-            </tr>
-          </table>
-        </td>
-
-        <td>
-          <table border="0">
-            <tr>
-              <td colspan="3">
-                <img src="car.webp">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">Toyota Hilux Revo</td>
-              <td rowspan="2">19 Cars</td>
-            </tr>
-            <tr>
-              <td>Start from</td>
-              <td>379,4000 Baht</td>
-            </tr>
-          </table>
-        </td>
-
-        <td>
-          <table border="0">
-            <tr>
-              <td colspan="3">
-                <img src="car.webp">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">Toyota Hilux Revo</td>
-              <td rowspan="2">19 Cars</td>
-            </tr>
-            <tr>
-              <td>Start from</td>
-              <td>379,4000 Baht</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </tbody>
+    <h1>Car Accessories</h1>
+ 
+    <h3>Add Accessory</h3>
+    <select id="accessory-select">
+        <option value="10">Car Cover</option>
+        <option value="20">Seat Covers</option>
+        <option value="30">Phone Holder</option>
+        <!-- Add more options here -->
+    </select>
+    <input type="number" id="amount-input" min="1" value="1">
+    <button class="add-button" onclick="addItem()">Add</button>
+ 
+    <h2>Product List</h2>
+    <table id="product-list">
+        <tr>
+            <th>Accessory</th>
+            <th>Amount</th>
+            <th>Price</th>
+        </tr>
+    </table>
     
-  </table>
-  <tr>
-    <p>Authored by <a href="profilepage.html">Nantiya Sachdev</a></p>
-  </tr>
-</body>
+    <h2>Total Price: <span id="total-price">$0.00</span></h2>
+    <h3>VAT (7%): <span id="vat-price">$0.00</span></h3>
+    
+    <script>
+        function addItem() {
+            var accessorySelect = document.getElementById("accessory-select");
+            var selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex].text;
+            var selectedAccessoryValue = accessorySelect.options[accessorySelect.selectedIndex].value;
+            var amountInput = document.getElementById("amount-input");
+            var amount = amountInput.value;
+            var price = parseFloat(selectedAccessoryValue);
+            var productTable = document.getElementById("product-list");
+            var totalPriceElement = document.getElementById("total-price");
+            var vatPriceElement = document.getElementById("vat-price");
 
+            var row = productTable.insertRow(-1);
+            var accessoryCell = row.insertCell(0);
+            var amountCell = row.insertCell(1);
+            var priceCell = row.insertCell(2);
+            
+            accessoryCell.innerHTML = selectedAccessory;
+            amountCell.innerHTML = amount;
+            priceCell.innerHTML = "$" + (price * amount).toFixed(2);
+
+            var currentTotalPrice = parseFloat(totalPriceElement.innerHTML.substring(1));
+            var newTotalPrice = currentTotalPrice + (price * amount);
+            totalPriceElement.innerHTML = "$" + newTotalPrice.toFixed(2);
+
+            var vat = newTotalPrice * 0.7; // VAT is 7%
+            vatPriceElement.innerHTML = "$" + vat.toFixed(2);
+        }
+    </script>
+</body>
 </html>
