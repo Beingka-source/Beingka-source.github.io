@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Accessories</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+</head>
+<body>
+    <h1>Car Accessories</h1>
+ 
+    <h3>Add Accessory</h3>
+    <select id="accessory-select">
+        <option value="10">Car Cover</option>
+        <option value="20">Seat Covers</option>
+        <option value="30">Phone Holder</option>
+        
+    </select>
+    <input type="number" id="amount-input" min="1" value="1">
+    <button class="add-button" onclick="addItem()">Add</button>
+ 
+    <h2>Product List</h2>
+    <table id="product-list">
+        <tr>
+            <th>Accessory</th>
+            <th>Amount</th>
+            <th>Price</th>
+        </tr>
+    </table>
+    
+    <h3>Gross Price: <span id="grossPrice">$0</span></h>
+    <h3>Vat Price: <span id="vatAmount">$0</span></h3>
+    <h2>Total Price: <span id="totalAmount">$0</span></h2>
+    
+    <script>
+        function addItem() {
+            var selectedAccessory = $('#accessory-select option:selected').text();
+            var selectedAccessoryValue = $('#accessory-select option:selected').val();
+            var amount = parseFloat($('#amount-input').val());
+            var price = parseFloat(selectedAccessoryValue);
+
+            var grossPrice = parseFloat($('#grossPrice').text().substring(1));
+            var vatAmount = parseFloat($('#vatAmount').text().substring(1));
+            var totalAmount = parseFloat($('#totalAmount').text().substring(1));
+
+            var row = $('<tr>').appendTo('#product-list');
+            $('<td>').text(selectedAccessory).appendTo(row);
+            $('<td>').text(amount).appendTo(row);
+            var currentPrice = price * amount;
+            $('<td>').text('$' + currentPrice.toFixed(2)).appendTo(row);
+
+            grossPrice += currentPrice;
+            $('#grossPrice').text('$' + grossPrice.toFixed(2));
+            vatAmount = grossPrice * 0.07;
+            $('#vatAmount').text('$' + vatAmount.toFixed(2));
+            totalAmount = grossPrice + vatAmount;
+            $('#totalAmount').text('$' + totalAmount.toFixed(2));
+        }
+    </script>
+</body>
+</html>
