@@ -1,62 +1,310 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Car Accessories</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .invoice-container {
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      font-family: Arial, sans-serif;
+    }
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ffcc00;
+      padding-bottom: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+    }
+    .brand-name {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    .invoice-details {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    .invoice-to,
+    .invoice-meta {
+      flex: 1;
+      margin-bottom: 30px;
+    }
+    .invoice-meta {
+      text-align: right;
+      margin-bottom: 40px;
+    }
+    .invoice-table {
+      width: 90%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .invoice-table th,
+    .invoice-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .invoice-table th {
+      background-color: #333;
+      color: white;
+    }
+    .invoice-footer {
+      display: flex;
+      flex-direction: column;
+      margin: 20px;
+    }
+    .thank-you {
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+    .terms-conditions,
+    .payment-info {
+      margin-bottom: 40px;
+    }
+    .total-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .total-amount {
+      background-color: #ffcc00;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .footer-sign {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      border-top: 2px solid #ffcc00;
+      padding-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Car Accessories</h1>
- 
-    <h3>Add Accessory</h3>
-    <select id="accessory-select">
-        <option value="10">Car Cover</option>
-        <option value="20">Seat Covers</option>
-        <option value="30">Phone Holder</option>
-        <!-- Add more options here -->
-    </select>
-    <input type="number" id="amount-input" min="1" value="1">
-    <button class="add-button" onclick="addItem()">Add</button>
- 
-    <h2>Product List</h2>
-    <table id="product-list">
-        <tr>
-            <th>Accessory</th>
-            <th>Amount</th>
+  <div class="invoice-container">
+    <header class="invoice-header">
+      <div class="brand-info">
+        <div class="brand-name">Quotation Car Accessories</div>
+      </div>
+    </header>
+
+    <div class="invoice-details">
+      <div class="invoice-to">
+        <strong>Invoice to:</strong>
+        <p>
+          Beingka Sachdev <br />
+          24 Dummy Street Area,<br />
+          Location, Pattaya city,<br />
+          20000
+        </p>
+      </div>
+      <div class="invoice-meta">
+        <div>
+          <strong>
+            Invoice# <br />
+            No.08489248bsr-93
+          </strong>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <strong>
+        <p>Date: 21/07/2024</p>
+      </strong>
+    </div>
+
+    <div>
+      <table class="table invoice-table">
+        <thead>
+          <tr style="background-color: blue; color: white;">
+            <th>SL.</th>
+            <th>Product</th>
             <th>Price</th>
-        </tr>
-    </table>
-    
-    <h2>Total Price: <span id="total-price">$0.00</span></h2>
-    <h3>VAT (7%): <span id="vat-price">$0.00</span></h3>
-    
-    <script>
-        function addItem() {
-            var accessorySelect = document.getElementById("accessory-select");
-            var selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex].text;
-            var selectedAccessoryValue = accessorySelect.options[accessorySelect.selectedIndex].value;
-            var amountInput = document.getElementById("amount-input");
-            var amount = amountInput.value;
-            var price = parseFloat(selectedAccessoryValue);
-            var productTable = document.getElementById("product-list");
-            var totalPriceElement = document.getElementById("total-price");
-            var vatPriceElement = document.getElementById("vat-price");
+            <th>Qty.</th>
+            <th>Total</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody id="invoiceTableBody">
+          <!-- Items will be dynamically added here -->
+        </tbody>
+      </table>
 
-            var row = productTable.insertRow(-1);
-            var accessoryCell = row.insertCell(0);
-            var amountCell = row.insertCell(1);
-            var priceCell = row.insertCell(2);
-            
-            accessoryCell.innerHTML = selectedAccessory;
-            amountCell.innerHTML = amount;
-            priceCell.innerHTML = "$" + (price * amount).toFixed(2);
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="background-color: #ffcc00; border-color: #ffcc00; margin: 5px;"
+        data-toggle="modal" data-target="#exampleModal"
+      >
+        Add Item
+      </button>
 
-            var currentTotalPrice = parseFloat(totalPriceElement.innerHTML.substring(1));
-            var newTotalPrice = currentTotalPrice + (price * amount);
-            totalPriceElement.innerHTML = "$" + newTotalPrice.toFixed(2);
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title" id="exampleModalLabel">Add Item</h2>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="itemForm" onsubmit="handleAddItem(event)">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>Product Lists</td>
+                      <td>
+                        <select class="form-select" id="newItemProduct" required>
+                          <option value="">Select Option</option>
+                          <option value="1">Car Cover</option>
+                          <option value="2">Seat Covers</option>
+                          <option value="3">Wallet</option>
+                          <option value="4">Phone Case</option>
+                          <option value="5">Laptop Case</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Quantity</td>
+                      <td>
+                        <input type="number" min="1" id="newItemQty" name="qty" class="form-control" required />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-outline-success">Save New Item</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            var vat = newTotalPrice * 0.7; // VAT is 7%
-            vatPriceElement.innerHTML = "$" + vat.toFixed(2);
-        }
-    </script>
+    </div>
+
+    <footer class="invoice-footer">
+      <div class="thank-you">Thank you for your order.</div>
+      <div class="terms-conditions">
+        <strong>Terms & Conditions</strong>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus est ipsam nulla nobis dolorum, sapiente pariatur iste deserunt dignissimos? Nulla, soluta quisquam eius excepturi sed beatae delectus veritatis voluptatem fugiat?
+        </p>
+      </div>
+      <div class="payment-info">
+        <strong>Payment Info:</strong>
+        <p>
+          Account #: 1234-5678-9012 <br />
+          ABC Name: Beingka Sachdev
+        </p>
+      </div>
+      <div class="total-info">
+        <div>
+          <strong>Sub Total:</strong>
+          <span id="subtotal">$0.00</span>
+        </div>
+        <div>
+          <strong>VAT (7%):</strong>
+          <span id="vat">$0.00</span>
+        </div>
+        <div class="total-amount">
+          <strong>Total:</strong>
+          <span id="total">$0.00</span>
+        </div>
+      </div>
+      <div class="footer-sign">
+        <div>Best regards, Beingka</div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    const items = [];
+    const products = {
+      '1': { price: 5000, description: 'Car Cover' },
+      '2': { price: 3400, description: 'Seat Cover' },
+      '3': { price: 1300, description: 'Wallet' },
+      '4': { price: 500, description: 'Phone Case' },
+      '5': { price: 700, description: 'Laptop Case' }
+    };
+
+    function handleAddItem(event) {
+      event.preventDefault();
+      const productSelect = document.getElementById('newItemProduct');
+      const qtyInput = document.getElementById('newItemQty');
+      const selectedProduct = productSelect.value;
+      const qty = parseInt(qtyInput.value);
+
+      if (selectedProduct && qty > 0) {
+        const product = products[selectedProduct];
+        const newItem = {
+          id: items.length + 1,
+          description: product.description,
+          unitPrice: product.price,
+          qty: qty
+        };
+        items.push(newItem);
+        updateTable();
+        updateTotals();
+        $('#exampleModal').modal('hide');
+      }
+    }
+
+    function updateTable() {
+      const tableBody = document.getElementById('invoiceTableBody');
+      tableBody.innerHTML = '';
+      items.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.description}</td>
+          <td>$${item.unitPrice.toFixed(2)}</td>
+          <td>${item.qty}</td>
+          <td>$${(item.unitPrice * item.qty).toFixed(2)}</td>
+          <td><button class="btn btn-danger" onclick="removeItem(${index})">Remove</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function updateTotals() {
+      let subtotal = 0;
+      items.forEach(item => {
+        subtotal += item.unitPrice * item.qty;
+      });
+      const vat = subtotal * 0.07;
+      const total = subtotal + vat;
+
+      document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('vat').textContent = `$${vat.toFixed(2)}`;
+      document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+    }
+
+    function removeItem(index) {
+      items.splice(index, 1);
+      updateTable();
+      updateTotals();
+    }
+  </script>
 </body>
 </html>
