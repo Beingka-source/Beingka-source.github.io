@@ -1,20 +1,22 @@
-import { useState, useRef } from 'react'
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { useLocalStorage, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import DataTable from './components/DataTable'
-import productList from './accessory-products.json'
-import 'bootstrap-icons/font/bootstrap-icons.css'; 
+import productList from './accessory-products.json';
+import DataTable from './components/DataTable';
+
 
 function App() {
   const productRef = useRef()
   const quantityRef = useRef()
 
   const [price, setPrice] = useState(productList[0].price)
-  const [selectedItems, setSelectedItems] = useState([]) // actual data
-  const [filteredSelectedItems, setFilteredSelectedItems] = useState([]) // for show only
+  // const [selectedItems, setSelectedItems] = useState([]) // actual data
+  const [selectedItems, setSelectedItems] = useLocalStorage("selectedItems",[]) // actual data
+  const [filteredSelectedItems, setFilteredSelectedItems] = useLocalStorage('filteredSelectedItems', [...selectedItems]) // for show only
 
   const deleteItemByIndex = (index) => { 
     selectedItems.splice(index, 1) 
